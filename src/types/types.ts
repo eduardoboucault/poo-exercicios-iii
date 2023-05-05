@@ -16,7 +16,7 @@ export interface HeroDBpost {
   created_at: string;
 }
 
-export interface Kingdom {
+export interface KingdomDB {
   id: string;
   name: string;
   age: string;
