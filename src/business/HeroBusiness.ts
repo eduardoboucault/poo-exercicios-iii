@@ -1,6 +1,7 @@
 import { HeroDatabase } from "../database/HeroDatabase";
 import { Hero } from "../models/Hero";
 export class HeroBusiness {
+
   public getHeroes = async (input: any) => {
     const { q } = input;
 

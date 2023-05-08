@@ -21,4 +21,4 @@ const battleController = new BattleController();
 app.get("/heroes", heroController.getHeroes);
 app.get("/kingdoms", kingdomController.getKingdoms);
 app.get("/battles", battleController.getBattles);
-app.post("/heroes", heroController.createHero);
+// app.post("/heroes", heroController.createHero);

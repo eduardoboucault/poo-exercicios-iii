@@ -17,6 +17,7 @@ export class HeroDatabase extends BaseDatabase {
       );
       heroesDB = result;
     }
+    
     return heroesDB;
   };
 }
