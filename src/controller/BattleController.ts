@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { BattleBusiness } from "../business/BattleBusiness";
-
 export class BattleController {
   public getBattles = async (req: Request, res: Response) => {
     try {
@@ -12,6 +11,20 @@ export class BattleController {
       const output = await battleBusiness.getBattles(input);
 
       res.status(200).send(output);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+
+      if (res.statusCode === 200) {
+        res.status(500);
+      }
+
+      if (error instanceof Error) {
+        res.send(error.message);
+      } else {
+        res.send("Erro inesperado");
+      }
+    } finally {
+      
+    }
   };
 }
