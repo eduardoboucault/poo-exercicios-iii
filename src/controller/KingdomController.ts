@@ -1,28 +1,44 @@
 import { Request, Response } from "express";
 import { KingdomBusiness } from "../business/KingdomBusiness";
-
+import { InputKingdom, InputQuery, OutputInformation } from "../types/types";
+import { Kingdom } from "../models/Kingdom";
 export class KingdomController {
-
-//* Métodos que modelem input/objetos requisitados;
-
-  public getKingdoms = async (req: Request, res: Response) => {
-
-
-//* Const input no formato objeto recebido;
-
+  public getKingdoms = async (req: Request, res: Response): Promise<void> => {
     try {
-      const input: any = {
-        q: req.query.q as string | undefined
+      const input: InputQuery = { q: req.query.q as string | undefined };
+
+      const kingdomBusiness: KingdomBusiness = new KingdomBusiness();
+      const output: Kingdom[] = await kingdomBusiness.getKingdom(input);
+
+      res.status(200).send(output);
+    } catch (error) {
+      console.log(error);
+
+      if (res.statusCode === 200) {
+        res.status(500);
+      }
+
+      if (error instanceof Error) {
+        res.send(error.message);
+      } else {
+        res.send("Erro inesperado");
+      }
+    }
+  };
+
+  public createKingdom = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const input: InputKingdom = {
+        id: req.body.id,
+        name: req.body.name,
+        age: req.body.age,
+        kingdom_hero: req.body.kingdom_age,
       };
 
-//* Instância da próxima camada chamando método para buscar input;
-
-//* Toda variável output espera receber um retorno, ou seja, é necessário o uso do await;
-
-      const kingdomBusiness = new KingdomBusiness();
-      const output = await kingdomBusiness.getKingdom(input);
-
-//* Devolver status e resultado;
+      const kingdomBusiness: KingdomBusiness = new KingdomBusiness();
+      const output: OutputInformation = await kingdomBusiness.createKingdom(
+        input
+      );
 
       res.status(200).send(output);
     } catch (error) {
