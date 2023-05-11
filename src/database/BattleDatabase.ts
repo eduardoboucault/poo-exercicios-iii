@@ -4,12 +4,12 @@ import { BattleDB, BattleDBpost, InputQuery } from "../types/types";
 export class BattleDatabase extends BaseDatabase {
   public static TABLE_BATTLE = "battles";
 
-  public findKingdom = async (q: InputQuery): Promise<BattleDB[]> => {
+  public findKingdom = async (input: InputQuery): Promise<BattleDB[]> => {
     let kingdomsDB;
-    if (q) {
+    if (input.q) {
       const result: BattleDB[] = await BaseDatabase.conection(
         BattleDatabase.TABLE_BATTLE
-      ).where("name", "LIKE", `%${q}%`);
+      ).where("location", "LIKE", `%${input.q}%`);
       kingdomsDB = result;
     } else {
       const result: BattleDB[] = await BaseDatabase.conection(

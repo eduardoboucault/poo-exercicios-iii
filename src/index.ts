@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import { HeroController } from "./controller/HeroController";
-import { KingdomController } from "./controller/KingdomController";
-import { BattleController } from "./controller/BattleController";
+import heroRouter from "./router/heroRouter";
+import battleRouter from "./router/battleRouter";
+import kingdomRouter from "./router/kingdomRouter";
 
 const app = express();
 
@@ -14,22 +14,6 @@ app.listen(3003, () => {
   console.log(`Server is already to use on ${3003} port.`);
 });
 
-const heroController = new HeroController();
-const kingdomController = new KingdomController();
-const battleController = new BattleController();
-
-app.get("/heroes", heroController.getHeroes);
-app.get("/kingdoms", kingdomController.getKingdoms);
-app.get("/battles", battleController.getBattles);
-
-app.post("/heroes", heroController.createHero);
-app.post("/kingdoms", kingdomController.createKingdom);
-app.post("/battles", battleController.createBattle);
-
-// app.put()
-// app.put()
-// app.put()
-
-// app.delete()
-// app.delete()
-// app.delete()
+app.use("/heroes", heroRouter);
+app.use("/battles", battleRouter);
+app.use("/kingdoms", kingdomRouter);

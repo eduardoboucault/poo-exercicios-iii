@@ -40,7 +40,9 @@ export class BattleController {
       };
 
       const battleBusiness: BattleBusiness = new BattleBusiness();
-      const output: OutputInformation = await battleBusiness.createBattle(input);
+      const output: OutputInformation = await battleBusiness.createBattle(
+        input
+      );
 
       res.status(200).send(output);
     } catch (error) {
