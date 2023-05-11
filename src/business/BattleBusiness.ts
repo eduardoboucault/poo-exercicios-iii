@@ -43,7 +43,7 @@ export class BattleBusiness {
     ) {
     }
 
-    const battleDatabase:BattleDatabase = new BattleDatabase();
+    const battleDatabase: BattleDatabase = new BattleDatabase();
     const battleDBexist: BattleDBpost | undefined =
       await battleDatabase.findKingdomById(id);
 

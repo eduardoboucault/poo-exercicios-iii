@@ -3,13 +3,13 @@ import { HeroDB, InputQuery } from "../types/types";
 export class HeroDatabase extends BaseDatabase {
   public static TABLE_HEROES = "heroes";
 
-  public findHero = async (q: InputQuery): Promise<HeroDB[]> => {
+  public findHero = async (input: InputQuery): Promise<HeroDB[]> => {
     let heroesDB;
 
-    if (q) {
+    if (input.q) {
       const result: HeroDB[] = await BaseDatabase.conection(
         HeroDatabase.TABLE_HEROES
-      ).where("name", "LIKE", `%${q}%`);
+      ).where("name", "LIKE", `%${input.q}%`);
       heroesDB = result;
     } else {
       const result: HeroDB[] = await BaseDatabase.conection(

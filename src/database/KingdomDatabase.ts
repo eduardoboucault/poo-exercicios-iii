@@ -3,13 +3,13 @@ import { InputQuery, KingdomDB } from "../types/types";
 export class KingdomDatabase extends BaseDatabase {
   public static TABLE_KINGDOM = "kingdoms";
 
-  public findKingdom = async (q: InputQuery): Promise<KingdomDB[]> => {
+  public findKingdom = async (input: InputQuery): Promise<KingdomDB[]> => {
     let kingdomDB;
 
-    if (q) {
+    if (input.q) {
       const result: KingdomDB[] = await BaseDatabase.conection(
         KingdomDatabase.TABLE_KINGDOM
-      ).where("name", "LIKE", `%${q}%`);
+      ).where("name", "LIKE", `%${input.q}%`);
       kingdomDB = result;
     } else {
       const result: KingdomDB[] = await BaseDatabase.conection(

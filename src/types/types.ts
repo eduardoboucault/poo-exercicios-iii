@@ -83,5 +83,5 @@ export type InputQuery = {
 
 export type OutputInformation = {
   message: string;
-  information: Battle | Kingdom | Hero
+  information: Battle | Kingdom | Hero;
 };
