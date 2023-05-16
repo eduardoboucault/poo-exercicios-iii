@@ -5,7 +5,9 @@ const kingdomRouter = express.Router();
 
 const kingdomController = new KingdomController();
 
-kingdomRouter.get("/", kingdomController.getKingdoms);
 kingdomRouter.post("/", kingdomController.createKingdom);
+kingdomRouter.get("/", kingdomController.getKingdoms);
+// kingdomRouter.put("/:id", kingdomController.editKingdom);
+// kingdomRouter.delete("/:id", kingdomController.deleteKingdom);
 
 export default kingdomRouter;

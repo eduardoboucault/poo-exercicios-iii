@@ -1,18 +1,22 @@
 import { HeroDatabase } from "../database/HeroDatabase";
-import { Hero } from "../models/Hero";
 import {
-  HeroDB,
-  HeroDBpost,
-  InputHero,
-  InputQuery,
-  OutputInformation,
-} from "../types/types";
+  CreateHeroInputDTO,
+  CreateHeroOutputDTO,
+} from "../dtosHero/createHero.dto";
+import {
+  EditHeroInputDTO,
+  EditHeroOutputDTO,
+  EditedHeroOutputDTO,
+} from "../dtosHero/editHero.dto";
+import { BadRequest } from "../errors/BadRequest";
+import { Hero } from "../models/Hero";
+import { GetInputHero, HeroDB } from "../types/heroTypes";
 export class HeroBusiness {
-  public getHeroes = async (input: InputQuery): Promise<Hero[]> => {
-    const heroDatabase: HeroDatabase = new HeroDatabase();
-    const heroesDB: HeroDB[] = await heroDatabase.findHero(input);
+  constructor(private heroDatabase: HeroDatabase) {}
+  public getHeroes = async (input: GetInputHero): Promise<Hero[]> => {
+    const heroesDB: HeroDB[] = await this.heroDatabase.findHero(input);
 
-    const heroes: Hero[] = heroesDB.map(
+    const heroes = heroesDB.map(
       (heroDB) =>
         new Hero(
           heroDB.id,
@@ -28,27 +32,18 @@ export class HeroBusiness {
     return output;
   };
 
-  public createHero = async (input: InputHero): Promise<OutputInformation> => {
-    const { id, name, hero_class, kingdom, race, created_at } = input;
+  public createHero = async (
+    input: CreateHeroInputDTO
+  ): Promise<CreateHeroOutputDTO> => {
+    const { id, name, hero_class, kingdom, race } = input;
 
-    if (
-      typeof id !== "string" ||
-      typeof name !== "string" ||
-      typeof hero_class !== "string" ||
-      typeof kingdom !== "string" ||
-      typeof race !== "string" ||
-      typeof created_at !== "string"
-    ) {
-      throw new Error(`Por favor insira corretamente todos os dados`);
-    }
-
-    const heroDatabase: HeroDatabase = new HeroDatabase();
-    const heroDBexist: HeroDBpost | undefined = await heroDatabase.findHeroById(
-      id
-    );
+    const heroDBexist: HeroDB | undefined =
+      await this.heroDatabase.findHeroById(id);
 
     if (heroDBexist) {
-      throw new Error(`Não é possível criar novo herói com ID já existente.`);
+      throw new BadRequest(
+        `Não é possível criar novo herói com ID já existente.`
+      );
     }
 
     const newHero: Hero = new Hero(
@@ -69,11 +64,64 @@ export class HeroBusiness {
       created_at: newHero.getCreatedAt(),
     };
 
-    await heroDatabase.insertHero(newHeroDB);
+    await this.heroDatabase.insertHero(newHeroDB);
 
-    const output: OutputInformation = {
+    const output: CreateHeroOutputDTO = {
       message: "Cadastro realizado com sucesso",
-      information: newHero,
+      hero: {
+        id: newHero.getId(),
+        name: newHero.getName(),
+        hero_class: newHero.getHeroClass(),
+        kingdom: newHero.getKingdom(),
+        race: newHero.getRace(),
+        created_at: newHero.getCreatedAt(),
+      },
+    };
+
+    return output;
+  };
+
+  public editHero = async (input: EditHeroInputDTO) => {
+    const { id, name, hero_class, kingdom, race } = input;
+
+    const heroDBexist: HeroDB | undefined =
+      await this.heroDatabase.findHeroById(id);
+
+    if (!heroDBexist) {
+      throw new Error("VC XUXOU ID ERRADO");
+    }
+
+    const newEditHero: Hero = new Hero(
+      heroDBexist.id,
+      heroDBexist.name,
+      heroDBexist.hero_class,
+      heroDBexist.kingdom,
+      heroDBexist.race,
+      heroDBexist.created_at
+    );
+
+    newEditHero.setName(name);
+    newEditHero.setHeroClass(hero_class);
+    newEditHero.setKingdom(kingdom);
+    newEditHero.setRace(race);
+
+    const newHeroDB: EditedHeroOutputDTO = {
+      name: newEditHero.getName(),
+      hero_class: newEditHero.getHeroClass(),
+      kingdom: newEditHero.getKingdom(),
+      race: newEditHero.getRace(),
+    };
+
+    await this.heroDatabase.updateHero(newHeroDB, id);
+
+    const output: EditHeroOutputDTO = {
+      message: "VC XUXOU O HERÓI",
+      editedHero: {
+        name: newEditHero.getName(),
+        hero_class: newEditHero.getHeroClass(),
+        kingdom: newEditHero.getKingdom(),
+        race: newEditHero.getRace(),
+      },
     };
 
     return output;

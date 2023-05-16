@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
 import { KingdomBusiness } from "../business/KingdomBusiness";
-import { InputKingdom, InputQuery, OutputInformation } from "../types/types";
 import { Kingdom } from "../models/Kingdom";
 export class KingdomController {
   public getKingdoms = async (req: Request, res: Response): Promise<void> => {
     try {
-      const input: InputQuery = { q: req.query.q as string | undefined };
+      const input: any = { q: req.query.q as any };
 
       const kingdomBusiness: KingdomBusiness = new KingdomBusiness();
-      const output: Kingdom[] = await kingdomBusiness.getKingdom(input);
+      const output: any[] = await kingdomBusiness.getKingdom(input);
 
       res.status(200).send(output);
     } catch (error) {
@@ -28,7 +27,7 @@ export class KingdomController {
 
   public createKingdom = async (req: Request, res: Response): Promise<void> => {
     try {
-      const input: InputKingdom = {
+      const input: any = {
         id: req.body.id,
         name: req.body.name,
         age: req.body.age,
@@ -36,7 +35,7 @@ export class KingdomController {
       };
 
       const kingdomBusiness: KingdomBusiness = new KingdomBusiness();
-      const output: OutputInformation = await kingdomBusiness.createKingdom(
+      const output: any = await kingdomBusiness.createKingdom(
         input
       );
 

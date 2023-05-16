@@ -21,7 +21,7 @@ export class Hero {
   }
 
   public setName(newName: string): void {
-    this.name = newName;
+    this.name = newName || this.name;
   }
 
   public getHeroClass(): string {
@@ -29,7 +29,7 @@ export class Hero {
   }
 
   public setHeroClass(newHeroClass: string): void {
-    this.hero_class = newHeroClass;
+    this.hero_class = newHeroClass || this.hero_class;
   }
 
   public getKingdom(): string {
@@ -37,7 +37,7 @@ export class Hero {
   }
 
   public setKingdom(newKingdom: string): void {
-    this.kingdom = newKingdom;
+    this.kingdom = newKingdom || this.kingdom;
   }
 
   public getRace(): string {
@@ -45,7 +45,7 @@ export class Hero {
   }
 
   public setRace(newRace: string): void {
-    this.race = newRace;
+    this.race = newRace || this.race;
   }
 
   public getCreatedAt(): string {

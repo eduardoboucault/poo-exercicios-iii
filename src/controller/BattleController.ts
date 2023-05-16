@@ -1,16 +1,15 @@
 import { Request, Response } from "express";
 import { BattleBusiness } from "../business/BattleBusiness";
-import { InputBattle, InputQuery, OutputInformation } from "../types/types";
 import { Battle } from "../models/Battle";
 export class BattleController {
   public getBattles = async (req: Request, res: Response): Promise<void> => {
     try {
-      const input: InputQuery = {
+      const input: any = {
         q: req.query.q as string | undefined,
       };
 
       const battleBusiness: BattleBusiness = new BattleBusiness();
-      const output: Battle[] = await battleBusiness.getBattles(input);
+      const output: any[] = await battleBusiness.getBattles(input);
 
       res.status(200).send(output);
     } catch (error) {
@@ -30,7 +29,7 @@ export class BattleController {
 
   public createBattle = async (req: Request, res: Response): Promise<void> => {
     try {
-      const input: InputBattle = {
+      const input: any = {
         id: req.body.id,
         location: req.body.location,
         date: req.body.date,
@@ -40,7 +39,7 @@ export class BattleController {
       };
 
       const battleBusiness: BattleBusiness = new BattleBusiness();
-      const output: OutputInformation = await battleBusiness.createBattle(
+      const output: any = await battleBusiness.createBattle(
         input
       );
 

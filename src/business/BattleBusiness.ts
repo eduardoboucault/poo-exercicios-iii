@@ -1,16 +1,9 @@
 import { BattleDatabase } from "../database/BattleDatabase";
 import { Battle } from "../models/Battle";
-import {
-  BattleDB,
-  BattleDBpost,
-  InputBattle,
-  InputQuery,
-  OutputInformation,
-} from "../types/types";
 export class BattleBusiness {
-  public getBattles = async (input: InputQuery): Promise<Battle[]> => {
+  public getBattles = async (input: any): Promise<Battle[]> => {
     const battleDatabase: BattleDatabase = new BattleDatabase();
-    const battleDB: BattleDB[] = await battleDatabase.findKingdom(input);
+    const battleDB: any[] = await battleDatabase.findKingdom(input);
 
     const battles: Battle[] = battleDB.map(
       (battleDB) =>
@@ -29,8 +22,8 @@ export class BattleBusiness {
   };
 
   public createBattle = async (
-    input: InputBattle
-  ): Promise<OutputInformation> => {
+    input: any
+  ): Promise<any> => {
     const { id, location, date, winner_id, loser_id, kingdom_id } = input;
 
     if (
@@ -44,7 +37,7 @@ export class BattleBusiness {
     }
 
     const battleDatabase: BattleDatabase = new BattleDatabase();
-    const battleDBexist: BattleDBpost | undefined =
+    const battleDBexist: any | undefined =
       await battleDatabase.findKingdomById(id);
 
     if (battleDBexist) {
@@ -60,7 +53,7 @@ export class BattleBusiness {
       kingdom_id
     );
 
-    const newBattleDB: BattleDB = {
+    const newBattleDB: any = {
       id: newBattle.getId(),
       location: newBattle.getLocation(),
       date: newBattle.getDate(),
@@ -71,7 +64,7 @@ export class BattleBusiness {
 
     await battleDatabase.insertBattle(newBattleDB);
 
-    const output: OutputInformation = {
+    const output: any = {
       message: "Nova batalha cadastrada com sucesso.",
       information: newBattle,
     };
