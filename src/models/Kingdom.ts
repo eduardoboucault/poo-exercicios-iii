@@ -2,7 +2,7 @@ export class Kingdom {
   constructor(
     private id: string,
     private name: string,
-    private age: string,
+    private age: number,
     private kingdom_hero: string
   ) {}
 
@@ -22,11 +22,11 @@ export class Kingdom {
     this.name = newName;
   }
 
-  public getAge(): string {
+  public getAge(): number {
     return this.age;
   }
 
-  public setAge(newAge: string): void {
+  public setAge(newAge: number): void {
     this.age = newAge;
   }
 

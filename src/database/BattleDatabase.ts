@@ -1,18 +1,17 @@
 import { BaseDatabase } from "./BaseDatabase";
-import { BattleDB, BattleDBpost, InputQuery } from "../types/types";
 
 export class BattleDatabase extends BaseDatabase {
   public static TABLE_BATTLE = "battles";
 
-  public findKingdom = async (input: InputQuery): Promise<BattleDB[]> => {
+  public findKingdom = async (input: any): Promise<any> => {
     let kingdomsDB;
     if (input.q) {
-      const result: BattleDB[] = await BaseDatabase.conection(
+      const result: any[] = await BaseDatabase.conection(
         BattleDatabase.TABLE_BATTLE
       ).where("location", "LIKE", `%${input.q}%`);
       kingdomsDB = result;
     } else {
-      const result: BattleDB[] = await BaseDatabase.conection(
+      const result: any[] = await BaseDatabase.conection(
         BattleDatabase.TABLE_BATTLE
       );
       kingdomsDB = result;
@@ -22,8 +21,8 @@ export class BattleDatabase extends BaseDatabase {
 
   public findKingdomById = async (
     id: string
-  ): Promise<BattleDBpost | undefined> => {
-    const [result]: BattleDBpost[] | undefined[] = await BaseDatabase.conection(
+  ): Promise<any | undefined> => {
+    const [result]: any[] | undefined[] = await BaseDatabase.conection(
       BattleDatabase.TABLE_BATTLE
     ).where({ id });
     return result;

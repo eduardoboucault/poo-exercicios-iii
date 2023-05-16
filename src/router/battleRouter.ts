@@ -5,7 +5,9 @@ const battleRouter = express.Router();
 
 const battleController = new BattleController();
 
-battleRouter.get("/", battleController.getBattles);
 battleRouter.post("/", battleController.createBattle);
+battleRouter.get("/", battleController.getBattles);
+// battleRouter.put("/:id", battleController.editBattle);
+// battleRouter.delete("/:id", battleController.deleteBattle);
 
 export default battleRouter;

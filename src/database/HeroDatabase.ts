@@ -1,9 +1,10 @@
+import { EditedHeroOutputDTO } from "../dtosHero/editHero.dto";
+import { GetInputHero, HeroDB } from "../types/heroTypes";
 import { BaseDatabase } from "./BaseDatabase";
-import { HeroDB, InputQuery } from "../types/types";
 export class HeroDatabase extends BaseDatabase {
   public static TABLE_HEROES = "heroes";
 
-  public findHero = async (input: InputQuery): Promise<HeroDB[]> => {
+  public findHero = async (input: GetInputHero): Promise<HeroDB[]> => {
     let heroesDB;
 
     if (input.q) {
@@ -30,5 +31,14 @@ export class HeroDatabase extends BaseDatabase {
 
   public insertHero = async (NewHero: HeroDB): Promise<void> => {
     await BaseDatabase.conection(HeroDatabase.TABLE_HEROES).insert(NewHero);
+  };
+
+  public updateHero = async (
+    NewHero: EditedHeroOutputDTO,
+    id: string
+  ): Promise<void> => {
+    await BaseDatabase.conection(HeroDatabase.TABLE_HEROES)
+      .update(NewHero)
+      .where({ id });
   };
 }
